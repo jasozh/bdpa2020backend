@@ -1,7 +1,7 @@
 const express = require("express")
 
-const guestUser = (req,res)=>{
-    res.json({userName:"you are a guest"})
+const guestUser = (req, res) => {
+    res.json({ userName: "you are a guest" })
 }
 const userRouter = express.Router()
 
