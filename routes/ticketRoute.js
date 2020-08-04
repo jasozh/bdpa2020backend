@@ -1,6 +1,6 @@
 const express = require("express")
 const bodyParser = require("body-parser")
-const ticketModel = require('./schemas/ticket')
+const ticketModel = require('../schemas/ticket')
 
 const addTicketToDatabase = async (req, res) => {
     console.log("Request? ", req.body)

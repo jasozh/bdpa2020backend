@@ -1,5 +1,5 @@
 const express = require("express")
-const userRoute = require("./routes/userRoute")
+const userRoute = require("./routes/userRoute"), ticketRoute = require("./routes/ticketRoute")
 const mongoose = require("mongoose")
 const cors = require("cors")
 
