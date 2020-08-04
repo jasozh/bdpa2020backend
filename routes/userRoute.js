@@ -3,7 +3,7 @@ const bodyParser = require("body-parser")
 const { addUserToDatabase } = require("../userInformation")
 
 const guestUser = (req, res) => {
-    res.json({ userName: "you are a guest" })
+    res.json({ username: "you are a guest" })
 }
 
 

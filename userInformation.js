@@ -4,85 +4,56 @@ const userInformationModal = require("./schemas/userInformationModel")
 
 const addUserToDatabase = async (req, res) => {
   console.log("Request body:", req.body)
+  const username = req.body.firstName + ":" + req.body.lastName
+  const securityQuestionOne = req.body.securityQuestionOne, securityQuestionTwo = req.body.securityQuestionTwo, securityQuestionThree = req.body.securityQuestionThree
+  const title = req.body.title, firstName = req.body.firstName, middleName = req.body.middleName, lastName = req.body.lastName, suffix = req.body.suffix
+  const sex = req.body.sex, birthdate = req.body.birthdate
+  const city = req.body.city, state = req.body.state, zip = req.body.zip, country = req.body.country
+  const phone = req.body.phone, email = req.body.email, password = req.body.password
   try {
-    const userName = req.body.userName
-    const password = req.body.password
-    const securityQuestionOne = req.body.securityQuestionOne
-    const securityQuestionTwo = req.body.securityQuestionTwo
-    const securityQuestionThree = req.body.securityQuestionThree
-    const title = req.body.title
-    const suffix = req.body.suffix
-    const firstName = req.body.firstName
-    const middleName = req.body.middleName
-    const lastName = req.body.lastName
-    const sex = req.body.sex
-    const dateOfBirth = req.body.dateOfBirth
-    const city = req.body.city
-    const state = req.body.state
-    const zip = req.body.zip
-    const country = req.body.country
-    const email = req.body.email
-    const phone = req.body.phone
 
-    console.log(password)
     const hashedPassword = await bycrypt.hash(password, 10)
 
     const userCreds = new userModel({
-      userName,
-      password: hashedPassword,
-      securityQuestionOne,
-      securityQuestionTwo,
-      securityQuestionThree
+      username, password: hashedPassword, securityQuestionOne, securityQuestionTwo, securityQuestionThree
     })
-    console.log(`user creds? : `, userCreds)
+    console.log("user creds: ", userCreds)
     const results = await userCreds.save()
-
-  }catch(error){
+  } catch (error) {
     if (error.code === 11000) {
-      res.send('Username already taken')
+      res.send('username already taken')
     }
     res.send("Bad input")
   }
 
-  try{
+  try {
     const userInfo = new userInformationModal({
-      title,
-      userName,
-      suffix,
-      firstName,
-      middleName,
-      lastName,
-      sex,
-      dateOfBirth,
-      city,
-      state,
-      zip,
-      country,
-      email,
-      phone
+      username, title, firstName, middleName, lastName, suffix,
+      sex, birthdate,
+      city, state, zip, country,
+      email, phone
     })
-    console.log(`user info`,userInformationModal)
-
-
-    res.json(results)
-  } catch(error) {
+    console.log("user info", userInfo)
+    const results = await userInfo.save()
+    console.log("results!", results)
+  } catch (error) {
     console.log('In the catch', error)
     res.json(error) // todo: don't send this all back
   }
 }
 
 
-const checkUserCredentials = async (userName, password) => {
-  console.log("Username? ", userName, password)
+const checkUserCredentials = async (username, password) => {
+  console.log("username? ", username, password)
 
   console.log("password1! length", "password1!".length)
   console.log("password1! length", password.length)
 
   const results = await userModel.findOne({
-    userName
+    username
   })
 
-  if (results === null || results === undefined ) {
+  if (results === null || results === undefined) {
     return false
   }
 
@@ -91,12 +62,12 @@ const checkUserCredentials = async (userName, password) => {
   const comparisonBool = await bycrypt.compare(password, results.password)
 
   console.log("comparison?", comparisonBool)
-  return comparisonBool  
+  return comparisonBool
 }
 
-const checkUserExists = async userName => {
+const checkUserExists = async username => {
   const results = await userModel.findOne({
-    userName
+    username
   })
 
   if (results === null || results === undefined) {
@@ -109,7 +80,7 @@ const checkUserExists = async userName => {
 
 }
 
-module.exports = { 
+module.exports = {
   addUserToDatabase,
   checkUserCredentials,
   checkUserExists
