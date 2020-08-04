@@ -1,29 +1,73 @@
 const userModel = require('./schemas/user')
 const bycrypt = require("bcrypt")
+const userInformationModal = require("./schemas/userInformationModel")
 
 const addUserToDatabase = async (req, res) => {
   console.log("Request body:", req.body)
   try {
     const userName = req.body.userName
     const password = req.body.password
+    const securityQuestionOne = req.body.securityQuestionOne
+    const securityQuestionTwo = req.body.securityQuestionTwo
+    const securityQuestionThree = req.body.securityQuestionThree
+    const title = req.body.title
+    const suffix = req.body.suffix
+    const firstName = req.body.firstName
+    const middleName = req.body.middleName
+    const lastName = req.body.lastName
+    const sex = req.body.sex
+    const dateOfBirth = req.body.dateOfBirth
+    const city = req.body.city
+    const state = req.body.state
+    const zip = req.body.zip
+    const country = req.body.country
+    const email = req.body.email
+    const phone = req.body.phone
+
     console.log(password)
     const hashedPassword = await bycrypt.hash(password, 10)
 
     const userCreds = new userModel({
       userName,
-      password: hashedPassword
+      password: hashedPassword,
+      securityQuestionOne,
+      securityQuestionTwo,
+      securityQuestionThree
     })
-
     console.log(`user creds? : `, userCreds)
-
     const results = await userCreds.save()
+
+  }catch(error){
+    if (error.code === 11000) {
+      res.send('Username already taken')
+    }
+    res.send("Bad input")
+  }
+
+  try{
+    const userInfo = new userInformationModal({
+      title,
+      userName,
+      suffix,
+      firstName,
+      middleName,
+      lastName,
+      sex,
+      dateOfBirth,
+      city,
+      state,
+      zip,
+      country,
+      email,
+      phone
+    })
+    console.log(`user info`,userInformationModal)
+
 
     res.json(results)
   } catch(error) {
     console.log('In the catch', error)
-    if (error.code === 11000) {
-      res.send('Username already taken')
-    }
+    res.json(error) // todo: don't send this all back
   }
 }
 

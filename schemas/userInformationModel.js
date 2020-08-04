@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 const userInformationSchema = mongoose.Schema({
-    Title: {
+    title: {
       type: String,
     },
     userName: {
@@ -31,24 +31,24 @@ const userInformationSchema = mongoose.Schema({
       type: String,
       required: true, 
     },
-    City: {
+    city: {
         type: String,
     },
-    State: {
+    state: {
         type: String,
     },
-    Zip: {
+    zip: {
         type: String,
     },
-    Country: {
+    country: {
         type: String,
     },
-    Email: {
+    email: {
         type: String,
         required: true,
         unique: true
     },
-    Phone: {
+    phone: {
         type: String,
         unique: true
     }
