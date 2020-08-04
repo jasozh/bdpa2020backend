@@ -1,21 +1,19 @@
 const userModel = require('./schemas/user')
 const bycrypt = require("bcrypt")
-const userInformationModal = require("./schemas/userInformationModel")
+const userInformationModal = require("./schemas/userInfo")
 
 const addUserToDatabase = async (req, res) => {
   console.log("Request body:", req.body)
   const username = req.body.firstName + ":" + req.body.lastName
-  const securityQuestionOne = req.body.securityQuestionOne, securityQuestionTwo = req.body.securityQuestionTwo, securityQuestionThree = req.body.securityQuestionThree
+  const securityQuestion1 = req.body.securityQuestion1, securityQuestion2 = req.body.securityQuestion2, securityQuestion3 = req.body.securityQuestion3
   const title = req.body.title, firstName = req.body.firstName, middleName = req.body.middleName, lastName = req.body.lastName, suffix = req.body.suffix
   const sex = req.body.sex, birthdate = req.body.birthdate
   const city = req.body.city, state = req.body.state, zip = req.body.zip, country = req.body.country
   const phone = req.body.phone, email = req.body.email, password = req.body.password
   try {
-
     const hashedPassword = await bycrypt.hash(password, 10)
-
     const userCreds = new userModel({
-      username, password: hashedPassword, securityQuestionOne, securityQuestionTwo, securityQuestionThree
+      username, password: hashedPassword, securityQuestion1, securityQuestion2, securityQuestion3
     })
     console.log("user creds: ", userCreds)
     const results = await userCreds.save()
@@ -41,7 +39,6 @@ const addUserToDatabase = async (req, res) => {
     res.json(error) // todo: don't send this all back
   }
 }
-
 
 const checkUserCredentials = async (username, password) => {
   console.log("username? ", username, password)
@@ -80,8 +77,4 @@ const checkUserExists = async username => {
 
 }
 
-module.exports = {
-  addUserToDatabase,
-  checkUserCredentials,
-  checkUserExists
-} 
+module.exports = { addUserToDatabase, checkUserCredentials, checkUserExists } 
