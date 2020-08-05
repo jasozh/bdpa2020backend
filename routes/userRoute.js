@@ -1,6 +1,6 @@
 const express = require("express")
 const bodyParser = require("body-parser")
-const { addUserToDatabase } = require("../userInformation")
+const { addUserToDatabase } = require("../userServices")
 
 const guestUser = (req, res) => {
     res.json({ username: "you are a guest" })

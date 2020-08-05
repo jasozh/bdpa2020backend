@@ -1,6 +1,6 @@
 const userModel = require('./schemas/user')
 const bycrypt = require("bcrypt")
-const userInformationModal = require("./schemas/userInfo")
+const userInformationModal = require("./schemas/userInformation")
 
 const addUserToDatabase = async (req, res) => {
   // console.log("Request body:", req.body)
@@ -34,7 +34,10 @@ const addUserToDatabase = async (req, res) => {
       return false
     }
   } catch (error) {
-    if (error.code === 11000) console.log("username taken")
+    if (error.code === 11000) {
+      res.status(409).json({ error: "Username taken" }).send("adfs")
+      console.log("username taken")
+    }
     else res.send("Bad input")
     return false
   }
