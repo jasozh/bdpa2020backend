@@ -1,5 +1,4 @@
-const express = require("express")
-const bodyParser = require("body-parser")
+const express = require("express"), bodyParser = require("body-parser")
 const { addUserToDatabase } = require("../userServices")
 
 const guestUser = (req, res) => {
@@ -9,7 +8,7 @@ const guestUser = (req, res) => {
 
 const userRouter = express.Router()
 
-userRouter.route('/add').post( bodyParser.json(), addUserToDatabase)
+userRouter.route('/add').post(bodyParser.json(), addUserToDatabase)
 //userRouter.route('/check').get(bodyParser.json(),)
 userRouter.route("/guest").get(guestUser)
 

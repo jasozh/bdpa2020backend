@@ -44,41 +44,22 @@ const addUserToDatabase = async (req, res) => {
   res.status(401).send("Bad input")
 }
 
-const checkUserCredentials = async (username, password) => {
-  console.log("username? ", username, password)
-
-  console.log("password1! length", "password1!".length)
-  console.log("password1! length", password.length)
-
-  const results = await userModel.findOne({
-    username
-  })
-
-  if (results === null || results === undefined) {
-    return false
-  }
-
-  console.log("Results", results)
-
-  const comparisonBool = await bycrypt.compare(password, results.password)
-
-  console.log("comparison?", comparisonBool)
-  return comparisonBool
+const verifyUserCredentials = async (username, firstName, lastName, password) => {
+  console.log("Credentials:", username, firstName, lastName, password)
+  const user = await findUser(username)
+  if (!user) return false
+  const userInformation = await userInformationModel.findOne({ username })
+  if (userInformation.firstName != firstName || userInformation.lastName != lastName) return false
+  const validPassword = await bycrypt.compare(password, user.password)
+  console.log("valid password", validPassword)
+  return validPassword
 }
 
-const checkUserExists = async username => {
-  const results = await userModel.findOne({
-    username
-  })
-
-  if (results === null || results === undefined) {
-    return false
-  }
-
-  console.log("Results", results)
-
-  return true
-
+const findUser = async username => {
+  const user = await userModel.findOne({ username })
+  if (user === null || user === undefined) return false
+  console.log("Found user", user)
+  return user
 }
 
-module.exports = { addUserToDatabase, checkUserCredentials, checkUserExists } 
+module.exports = { addUserToDatabase, verifyUserCredentials, findUser } 
