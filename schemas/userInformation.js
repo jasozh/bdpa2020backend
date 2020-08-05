@@ -13,8 +13,8 @@ const userInformationSchema = mongoose.Schema({
   state: { type: String },
   zip: { type: String },
   country: { type: String },
-  email: { type: String, required: true, unique: true },
-  phone: { type: String, unique: true }
+  email: { type: String, required: true},
+  phone: { type: String}
 })
 
 const model = mongoose.model("userInformation", userInformationSchema)

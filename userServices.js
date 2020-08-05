@@ -1,10 +1,10 @@
 const userModel = require('./schemas/user')
 const bycrypt = require("bcrypt")
-const userInformationModal = require("./schemas/userInformation")
+const userInformationModel = require("./schemas/userInformation")
 
 const addUserToDatabase = async (req, res) => {
   // console.log("Request body:", req.body)
-  const username = req.body.firstName + ":" + req.body.lastName
+  const username = req.body.username
   const securityQuestion1 = req.body.securityQuestion1, securityQuestion2 = req.body.securityQuestion2, securityQuestion3 = req.body.securityQuestion3
   const title = req.body.title, firstName = req.body.firstName, middleName = req.body.middleName, lastName = req.body.lastName, suffix = req.body.suffix
   const sex = req.body.sex, birthdate = req.body.birthdate
@@ -18,7 +18,7 @@ const addUserToDatabase = async (req, res) => {
     console.log("user creds: ", userCreds)
     const results = await userCreds.save()
     try {
-      const userInfo = new userInformationModal({
+      const userInfo = new userInformationModel({
         username, title, firstName, middleName, lastName, suffix,
         sex, birthdate,
         city, state, zip, country,
@@ -30,13 +30,13 @@ const addUserToDatabase = async (req, res) => {
       return true
     } catch (error) {
       console.log('In the catch', error)
+      await userModel.deleteOne({username})
       res.json(error) // todo: don't send this all back
       return false
     }
   } catch (error) {
     if (error.code === 11000) {
-      res.status(409).json({ error: "Username taken" }).send("adfs")
-      console.log("username taken")
+      res.status(409).json({ error})
     }
     else res.send("Bad input")
     return false
