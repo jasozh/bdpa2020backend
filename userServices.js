@@ -1,6 +1,5 @@
-const userModel = require('./schemas/user')
+const userModel = require('./schemas/user'), userInformationModel = require("./schemas/userInformation")
 const bycrypt = require("bcrypt")
-const userInformationModel = require("./schemas/userInformation")
 
 const addUserToDatabase = async (req, res) => {
   // console.log("Request body:", req.body)
@@ -26,21 +25,23 @@ const addUserToDatabase = async (req, res) => {
       })
       console.log("user info", userInfo)
       const results = await userInfo.save()
-      console.log("saved user info")
-      return true
+      console.log("saved user")
+      res.status(200).send("User Saved")
+      return
     } catch (error) {
       console.log('In the catch', error)
-      await userModel.deleteOne({username})
-      res.json(error) // todo: don't send this all back
-      return false
+      await userModel.deleteOne({ username })
+      if (error.code === 11000) res.status(409).json({ error })
+      else res.send("Bad input")
+      // res.json(error) // todo: don't send this all back
     }
   } catch (error) {
     if (error.code === 11000) {
-      res.status(409).json({ error})
+      res.status(409).json({ error })
+      return
     }
-    else res.send("Bad input")
-    return false
   }
+  res.status(401).send("Bad input")
 }
 
 const checkUserCredentials = async (username, password) => {
