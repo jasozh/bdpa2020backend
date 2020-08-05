@@ -2,31 +2,16 @@ const express = require('express'), bodyParser = require('body-parser'), jsonWeb
 const tokenSignature = "secretTokenSignature"
 
 const createToken = (username) => {
-    const token = jsonWebToken.sign(
-        { userName },
-        tokenSignature,
-        { expiresIn: "2h" }
-    )
-
+    const token = jsonWebToken.sign({ username }, tokenSignature, { expiresIn: "2h" })
     return token
 }
 
 const getUserToken = (req, res) => {
-
-    const { userName } = req.body
-    const token = createToken(userName)
-
-    res.json({
-        token,
-        role: "whatever"
-    })
+    const username = Buffer.from(req.headers.authorization.split(" ")[1], 'base64').toString('ASCII').split(":")[0] //how to pass username in arguments?
+    const token = createToken(username)
+    res.json({ token, role: "whatever" })
 }
 
-
-
-
 const getUserTokenRoute = express.Router()
-
 getUserTokenRoute.post('/', bodyParser.json(), getUserToken)
-
 module.exports = getUserTokenRoute
