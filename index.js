@@ -12,7 +12,7 @@ mongoose.connect(mongoDefaultURL, {
 
 const dbConnection = mongoose.connection
 dbConnection.on("error", err => console.error(err))
-dbConnection.once("open", () => console.log('connected to db!!! 🍕'))
+dbConnection.once("open", () => console.log('Database connected!'))
 
 const app = express()
 
