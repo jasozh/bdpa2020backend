@@ -3,7 +3,7 @@ const bycrypt = require("bcrypt")
 const userInformationModal = require("./schemas/userInfo")
 
 const addUserToDatabase = async (req, res) => {
-  console.log("Request body:", req.body)
+  // console.log("Request body:", req.body)
   const username = req.body.firstName + ":" + req.body.lastName
   const securityQuestion1 = req.body.securityQuestion1, securityQuestion2 = req.body.securityQuestion2, securityQuestion3 = req.body.securityQuestion3
   const title = req.body.title, firstName = req.body.firstName, middleName = req.body.middleName, lastName = req.body.lastName, suffix = req.body.suffix
@@ -17,26 +17,26 @@ const addUserToDatabase = async (req, res) => {
     })
     console.log("user creds: ", userCreds)
     const results = await userCreds.save()
-  } catch (error) {
-    if (error.code === 11000) {
-      res.send('username already taken')
+    try {
+      const userInfo = new userInformationModal({
+        username, title, firstName, middleName, lastName, suffix,
+        sex, birthdate,
+        city, state, zip, country,
+        email, phone
+      })
+      console.log("user info", userInfo)
+      const results = await userInfo.save()
+      console.log("saved user info")
+      return true
+    } catch (error) {
+      console.log('In the catch', error)
+      res.json(error) // todo: don't send this all back
+      return false
     }
-    res.send("Bad input")
-  }
-
-  try {
-    const userInfo = new userInformationModal({
-      username, title, firstName, middleName, lastName, suffix,
-      sex, birthdate,
-      city, state, zip, country,
-      email, phone
-    })
-    console.log("user info", userInfo)
-    const results = await userInfo.save()
-    console.log("results!", results)
   } catch (error) {
-    console.log('In the catch', error)
-    res.json(error) // todo: don't send this all back
+    if (error.code === 11000) console.log("username taken")
+    else res.send("Bad input")
+    return false
   }
 }
 
