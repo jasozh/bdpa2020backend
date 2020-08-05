@@ -5,7 +5,8 @@ const userSchema = mongoose.Schema({
   password: { type: String, required: true },
   securityQuestion1: { type: String, required: true },
   securityQuestion2: { type: String, required: true },
-  securityQuestion3: { type: String, required: true }
+  securityQuestion3: { type: String, required: true },
+  role: { type: String }
 })
 
 const model = mongoose.model("userCredentials", userSchema)

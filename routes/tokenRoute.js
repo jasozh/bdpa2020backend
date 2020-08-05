@@ -7,9 +7,8 @@ const createToken = (username) => {
 }
 
 const getUserToken = (req, res) => {
-    const username = Buffer.from(req.headers.authorization.split(" ")[1], 'base64').toString('ASCII').split(":")[0] //how to pass username in arguments?
-    const token = createToken(username)
-    res.json({ token, role: "whatever" })
+    const token = createToken(req.username)
+    res.status(200).json({ token, role: req.role })
 }
 
 const getUserTokenRoute = express.Router()

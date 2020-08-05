@@ -12,7 +12,7 @@ const addUserToDatabase = async (req, res) => {
   try {
     const hashedPassword = await bycrypt.hash(password, 10)
     const userCreds = new userModel({
-      username, password: hashedPassword, securityQuestion1, securityQuestion2, securityQuestion3
+      username, password: hashedPassword, securityQuestion1, securityQuestion2, securityQuestion3, role: "customer"
     })
     console.log("user creds: ", userCreds)
     const results = await userCreds.save()
@@ -52,7 +52,7 @@ const verifyUserCredentials = async (username, firstName, lastName, password) =>
   if (userInformation.firstName != firstName || userInformation.lastName != lastName) return false
   const validPassword = await bycrypt.compare(password, user.password)
   console.log("valid password", validPassword)
-  return validPassword
+  return user.role
 }
 
 const findUser = async username => {
