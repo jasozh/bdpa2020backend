@@ -14,7 +14,9 @@ const userInformationSchema = mongoose.Schema({
     zip: { type: String },
     country: { type: String },
     email: { type: String, required: true },
-    phone: { type: String }
+    phone: { type: String },
+    lastLoginIp: { type: String },
+    lastLoginDate: { type: String },
 })
 
 const model = mongoose.model("userInformation", userInformationSchema)
