@@ -64,7 +64,7 @@ const findUser = async username => {
 const findUserInformation = async username => {
     const userInfo = await userInformationModel.findOne({ username })
     if (userInfo === null || userInfo === undefined) return false
-    console.log("Found userformation", userInfo)
+    console.log("Found user information", userInfo)
     return userInfo
 }
 const returnUserInformation = async (req, res) => {
@@ -72,8 +72,12 @@ const returnUserInformation = async (req, res) => {
     if (userInfo) res.status(200).send(userInfo)
     else res.status(401).json("User info not found")
 }
-const updateUserInformaiton = async (user) => {
-    return false
+const updateUserInformation = async (req, res) => {
+    console.log(req.username)
+    const userInfo = await userInformationModel.findOneAndUpdate(req.username, req.body)
+    const newUserInfo = await findUserInformation(req.username)
+    console.log("newUserInfo", newUserInfo)
+    res.status(200).send(newUserInfo)
 }
 
-module.exports = { addUserToDatabase, verifyUserCredentials, findUser, returnUserInformation, updateUserInformaiton } 
+module.exports = { addUserToDatabase, verifyUserCredentials, findUser, returnUserInformation, updateUserInformation } 

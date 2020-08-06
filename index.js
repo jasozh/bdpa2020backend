@@ -8,7 +8,7 @@ mongoose.connect(mongoDefaultURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-
+mongoose.set('useFindAndModify', false);
 const dbConnection = mongoose.connection
 dbConnection.on("error", err => console.error(err))
 dbConnection.once("open", () => console.log('Database connected!'))
