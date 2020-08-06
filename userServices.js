@@ -68,18 +68,20 @@ const findUserInformation = async username => {
     return userInfo
 }
 const returnUserInformation = async (req, res) => {
-    const userInfo = await findUserInformation(req.username), ip = ""
+    const userInfo = await findUserInformation(req.username)
     if (userInfo) {
         res.status(200).send(userInfo)
-        await userInfo.update({ lastLoginDate: Date.now() })
+        await userInfo.update({ lastLoginDate: 123 })
     }
     else res.status(401).json("User info not found")
 }
 const updateUserInformation = async (req, res) => {
     console.log(req.username)
-    const userInfo = await userInformationModel.findOneAndUpdate(req.username, req.body)
+    let { username, ...userInfo } = req.body
+    console.log(userInfo)
+    userInfo = await userInformationModel.findOneAndUpdate(req.username, req.body)
     const newUserInfo = await findUserInformation(req.username)
-    console.log("newUserInfo", newUserInfo)
+    // console.log("newUserInfo", newUserInfo)
     res.status(200).send(newUserInfo)
 }
 
