@@ -5,8 +5,8 @@ const userAuth = require("./lib/userAuth"), tokenAuth = require("./lib/tokenAuth
 const mongoDefaultURL = "mongodb://127.0.0.1:27017/airport"
 
 mongoose.connect(mongoDefaultURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 })
 
 const dbConnection = mongoose.connection

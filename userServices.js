@@ -48,18 +48,31 @@ const verifyUserCredentials = async (username, firstName, lastName, password) =>
     console.log("Credentials:", username, firstName, lastName, password)
     const user = await findUser(username)
     if (!user) return false
-    const userInformation = await userInformationModel.findOne({ username })
-    if (userInformation.firstName != firstName || userInformation.lastName != lastName) return false
+    const userInformation = await findUserInformation(username)
+    if (!userInformation || userInformation.firstName != firstName || userInformation.lastName != lastName) return false
     const validPassword = await bycrypt.compare(password, user.password)
     console.log("valid password", validPassword)
     return user.role
 }
-
 const findUser = async username => {
     const user = await userModel.findOne({ username })
     if (user === null || user === undefined) return false
     console.log("Found user", user)
     return user
 }
+const findUserInformation = async username => {
+    const userInfo = await userInformationModel.findOne({ username })
+    if (userInfo === null || userInfo === undefined) return false
+    console.log("Found userformation", userInfo)
+    return userInfo
+}
+const returnUserInformation = async (req, res) => {
+    const userInfo = await findUserInformation(req.username)
+    if (userInfo) res.status(200).send(userInfo)
+    else res.status(401).json("User info not found")
+}
+const updateUserInformaiton = async (user) => {
+    return false
+}
 
-module.exports = { addUserToDatabase, verifyUserCredentials, findUser } 
+module.exports = { addUserToDatabase, verifyUserCredentials, findUser, returnUserInformation, updateUserInformaiton } 
