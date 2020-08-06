@@ -51,6 +51,7 @@ const verifyUserCredentials = async (username, firstName, lastName, password) =>
     const userInformation = await findUserInformation(username)
     if (!userInformation || userInformation.firstName != firstName || userInformation.lastName != lastName) return false
     const validPassword = await bycrypt.compare(password, user.password)
+    if (!validPassword) return false
     console.log("valid password", validPassword)
     return user.role
 }
