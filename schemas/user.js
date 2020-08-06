@@ -1,12 +1,12 @@
 const mongoose = require("mongoose")
 
 const userSchema = mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    username         : { type: String, required: true, unique: true },
+    password         : { type: String, required: true },
     securityQuestion1: { type: String, required: true },
     securityQuestion2: { type: String, required: true },
     securityQuestion3: { type: String, required: true },
-    role: { type: String }
+    role             : { type: String }
 })
 
 const model = mongoose.model("userCredentials", userSchema)
