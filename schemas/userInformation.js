@@ -17,7 +17,7 @@ const userInformationSchema = mongoose.Schema({
     phone        : { type: String },
     lastLoginIp  : { type: String },
     lastLoginDate: { type: Number },
-    cards        : { type: Array, of:String }
+    card        : { type: String }
 })
 
 const model = mongoose.model("userInformation", userInformationSchema)

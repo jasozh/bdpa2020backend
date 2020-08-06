@@ -21,7 +21,7 @@ const addUserToDatabase = async (req, res) => {
                 username, title, firstName, middleName, lastName, suffix,
                 sex, birthdate,
                 city, state, zip, country,
-                email, phone
+                email, phone, cards: ""
             })
             console.log("user info", userInfo)
             const results = await userInfo.save()
@@ -82,7 +82,7 @@ const updateUserInformation = async (req, res) => {
     console.log(userInfo)
     userInfo = await userInformationModel.findOneAndUpdate(req.username, userInfo)
     const newUserInfo = await findUserInformation(req.username)
-    // console.log("newUserInfo", newUserInfo)
+    console.log("newUserInfo", newUserInfo)
     res.status(200).send(newUserInfo)
 }
 
