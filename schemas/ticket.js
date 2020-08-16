@@ -3,11 +3,7 @@ const mongoose = require("mongoose")
 const ticketSchema = mongoose.Schema({
     user: {
         type: String,
-        require: true,
-    },
-    price: {
-        type: Number,
-        required: true
+        required: true,
     },
     flight_id: {
         type: String,
