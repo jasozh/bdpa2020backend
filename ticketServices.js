@@ -1,16 +1,16 @@
 const ticketModel = require('./schemas/ticket')
 const addTicketToDatabase = async (req, res) => {
-    console.log("Request? ", req.body)
-    const user = req.body.username, flight_id = req.body.flight_id
-    if (user === undefined) res.json({ error: "bad input, please have user sent" })
-    const ticketDB = new ticketModel({ username, flight_id })
+    console.log("Request", req.body)
+    const username = req.body.username, flight_id = req.body.flight_id
     try {
-        const results = await ticketDB.save()
-        console.log("ticket", results)
+        const ticketDB = new ticketModel({ username, flight_id })
+        const ticket = await ticketDB.save()
+        console.log("ticket", ticket)
+        res.status(200).send(ticket)
     }
     catch (err) {
         console.log(err)
-        res.send("Bad input")
+        res.status(401)
     }
 }
 
