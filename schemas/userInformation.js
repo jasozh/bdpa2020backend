@@ -16,7 +16,7 @@ const userInformationSchema = mongoose.Schema({
     email: { type: String, required: true },
     phone: { type: String },
     lastLoginIp: { type: String },
-    lastLoginDate: { type: Number },
+    lastLoginDate: { type: Date },
     card: { type: String }
 })
 
