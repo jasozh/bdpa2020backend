@@ -6,7 +6,8 @@ const mongoDefaultURL = "mongodb://127.0.0.1:27017/airport"
 
 mongoose.connect(mongoDefaultURL, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  autoIndex: true
 })
 mongoose.set('useFindAndModify', false);
 const dbConnection = mongoose.connection

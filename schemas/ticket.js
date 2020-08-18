@@ -1,14 +1,8 @@
 const mongoose = require("mongoose")
 
 const ticketSchema = mongoose.Schema({
-    user: {
-        type: String,
-        required: true,
-    },
-    flight_id: {
-        type: String,
-        required: true
-    }
+    user: { type: String, require: true },
+    flight_id: { type: String, required: true }
 })
 
 const model = mongoose.model("ticket", ticketSchema)

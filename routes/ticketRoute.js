@@ -6,9 +6,7 @@ const addTicketToDatabase = async (req, res) => {
 
     const user = req.body.user,flight_id = req.body.flight_id
 
-    if (user === undefined) {
-        res.json({ error: "bad input, please have user sent" })
-    }
+    if (user === undefined) res.json({ error: "bad input, please have user sent" })
 
     const ticketDB = new ticketModel({ user, flight_id })
     const results = await ticketDB.save()

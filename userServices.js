@@ -21,23 +21,22 @@ const addUserToDatabase = async (req, res) => {
                 username, title, firstName, middleName, lastName, suffix,
                 sex, birthdate,
                 city, state, zip, country,
-                email, phone, cards: ""
+                email, phone, card: ""
             })
             console.log("user info", userInfo)
             const results = await userInfo.save()
             console.log("saved user")
             res.status(200).send("User Saved")
             return
-        } catch (error) {
-            console.log('In the catch', error)
+        } catch (err) {
+            console.log(err)
             await userModel.deleteOne({ username })
-            if (error.code === 11000) res.status(409).json({ error })
+            if (err.code === 11000) res.status(409).json({ err })
             else res.send("Bad input")
-            // res.json(error) // todo: don't send this all back
         }
-    } catch (error) {
-        if (error.code === 11000) {
-            res.status(409).json({ error })
+    } catch (err) {
+        if (err.code === 11000) {
+            res.status(409).json({ err })
             return
         }
     }
