@@ -94,5 +94,18 @@ const updateUserInformation = async (req, res) => {
     console.log("newUserInfo", newUserInfo)
     res.status(200).send(newUserInfo)
 }
+const findUserRole = async username => {
+    const userRole = await userModel.find({ username }, { role: 1, _id: 0});
+    if (userRole === null || userRole === undefined) return false
+    console.log("Found user role", userRole)
+    return userRole
+}
+const returnUserRole = async (req, res) => {
+    const userRole = await findUserRole(req.username)
+    if (userRole) {
+        res.status(200).send(userRole)
+    }
+    else res.status(400).json("User role no found")
+}
 
-module.exports = { addUserToDatabase, verifyUserCredentials, verifyUserSecurityQuestions, findUser, returnUserInformation, updateUserInformation } 
+module.exports = { addUserToDatabase, verifyUserCredentials, verifyUserSecurityQuestions, findUser, returnUserInformation, updateUserInformation, returnUserRole } 
