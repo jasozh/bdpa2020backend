@@ -54,6 +54,16 @@ const verifyUserCredentials = async (username, firstName, lastName, password) =>
     console.log("valid password", validPassword)
     return user.role
 }
+const verifyUserSecurityQuestions = async (username, securityQuestion1, securityQuestion2, securityQuestion3) => {
+    console.log("Credentials:", username, securityQuestion1, securityQuestion2, securityQuestion3)
+    const user = await findUser(username)
+    if (!user) return false
+    const userInformation = await findUser(username)
+    console.log("Real Credentials:", userInformation.username, userInformation.securityQuestion1, userInformation.securityQuestion2, userInformation.securityQuestion3)
+    if (!userInformation || userInformation.securityQuestion1 != securityQuestion1 || userInformation.securityQuestion2 != securityQuestion2 || userInformation.securityQuestion3 != securityQuestion3) return false
+    console.log("valid security questions")
+    return user.role
+}
 const findUser = async username => {
     const user = await userModel.findOne({ username })
     if (user === null || user === undefined) return false
@@ -85,4 +95,4 @@ const updateUserInformation = async (req, res) => {
     res.status(200).send(newUserInfo)
 }
 
-module.exports = { addUserToDatabase, verifyUserCredentials, findUser, returnUserInformation, updateUserInformation } 
+module.exports = { addUserToDatabase, verifyUserCredentials, verifyUserSecurityQuestions, findUser, returnUserInformation, updateUserInformation } 
