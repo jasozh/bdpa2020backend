@@ -83,7 +83,7 @@ const returnUserInformation = async (req, res) => {
         await userInfo.update({ lastLoginDate: Date.now() })
         await userInfo.update({ lastLoginIp: req.ip })
     }
-    else res.status(401).json("User info not found")
+    else res.status(400).json("User info not found")
 }
 const updateUserInformation = async (req, res) => {
     console.log(req.username)
