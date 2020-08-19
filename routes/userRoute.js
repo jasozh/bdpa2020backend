@@ -1,5 +1,5 @@
 const express = require("express"), bodyParser = require("body-parser")
-const { addUserToDatabase, returnUserInformation, updateUserInformation, returnUserRole } = require("../userServices"), tokenAuth = require("../lib/tokenAuth")
+const { addUserToDatabase, returnUserInformation, updateUserInformation, returnUserRole, returnAllUsers } = require("../userServices"), tokenAuth = require("../lib/tokenAuth")
 
 const guestUser = (req, res) => {
     res.json({ username: "you are a guest" })
@@ -12,5 +12,6 @@ userRouter.route('/update').post(tokenAuth, bodyParser.json(), updateUserInforma
 //userRouter.route('/check').get(bodyParser.json(),)
 userRouter.route("/guest").get(guestUser)
 userRouter.route("/getRole").get(tokenAuth, returnUserRole)
+userRouter.route("/getAllUsers").get(tokenAuth, returnAllUsers)
 
 module.exports = userRouter

@@ -107,5 +107,18 @@ const returnUserRole = async (req, res) => {
     }
     else res.status(400).json("User role no found")
 }
-
-module.exports = { addUserToDatabase, verifyUserCredentials, verifyUserSecurityQuestions, findUser, returnUserInformation, updateUserInformation, returnUserRole } 
+// Retrieve all users for admin dashboard
+const findAllUsers = async username => {
+    const users = await userInformationModel.find()
+    if (users === null || users === undefined) return false
+    console.log("Found users", users)
+    return users
+}
+const returnAllUsers = async (req, res) => {
+    const users = await findAllUsers(req.username)
+    if (users) {
+        res.status(200).send(users)
+    }
+    else res.status(400).json("Users unable to be retrieved")
+}
+module.exports = { addUserToDatabase, verifyUserCredentials, verifyUserSecurityQuestions, findUser, returnUserInformation, updateUserInformation, returnUserRole, returnAllUsers } 
