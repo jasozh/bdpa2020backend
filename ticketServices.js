@@ -3,8 +3,9 @@ const addTicketToDatabase = async (req, res) => {
     console.log("Request", req.body)
     const username = req.body.username, flight_id = req.body.flight_id
     try {
-        const ticketDB = new ticketModel({ username, flight_id })
-        const ticket = await ticketDB.save()
+        const ticket = new ticketModel({ username, flight_id })
+        const existingTicket = await ticketModel.findOne({ username, flight_id })
+        if (!existingTicket) await ticket.save()
         console.log("ticket", ticket)
         res.status(200).send(ticket)
     }
