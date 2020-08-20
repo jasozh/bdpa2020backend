@@ -5,6 +5,11 @@ const addUserToDatabase = async (req, res) => {
     const { securityQuestion1, securityQuestion2, securityQuestion3,
         title, firstName, middleName, lastName, suffix, sex, birthdate,
         city, state, zip, country, phone, email, password, ffms } = req.body
+    const existingUser = await userModel.findOne({ email })
+    if (existingUser) {
+        res.status(409).json("Email already taken")
+        return
+    }
     try {
         const hashedPassword = await bycrypt.hash(password, 10)
         const userCreds = new userModel({
@@ -24,19 +29,8 @@ const addUserToDatabase = async (req, res) => {
             console.log("saved user")
             res.status(200).send("User Saved")
             return
-        } catch (err) {
-            console.log(err)
-            await userModel.deleteOne({ email })
-            if (err.code === 11000) res.status(409).json({ err })
-            else res.send("Bad input")
-        }
-    } catch (err) {
-        console.log(err)
-        if (err.code === 11000) {
-            res.status(409).json({ err })
-            return
-        }
-    }
+        } catch (err) { await userModel.deleteOne({ email }) }
+    } catch (err) { }
     res.status(401).send("Bad input")
 }
 
