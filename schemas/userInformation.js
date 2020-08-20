@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 const userInformationSchema = mongoose.Schema({
     title: { type: String },
-    username: { type: String, required: true, unique: true, uniqueCaseInsensitive:true },
+    email: { type: String, required: true, unique: true, uniqueCaseInsensitive:true },
     suffix: { type: String },
     firstName: { type: String, required: true },
     middleName: { type: String },
@@ -13,7 +13,6 @@ const userInformationSchema = mongoose.Schema({
     state: { type: String, required: true },
     zip: { type: String, required: true },
     country: { type: String, required: true },
-    email: { type: String, required: true },
     phone: { type: String },
     lastLoginIp: { type: String },
     lastLoginDate: { type: Date },

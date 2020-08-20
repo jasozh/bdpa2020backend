@@ -1,12 +1,12 @@
 const ticketModel = require('./schemas/ticket')
 const addTicketToDatabase = async (req, res) => {
-    console.log("Request", req.body)
-    const username = req.body.username, flight_id = req.body.flight_id
+    console.log("Ticket Request", req.body)
+    const email = req.body.email, flight_id = req.body.flight_id, seat = req.body.seat
     try {
-        const ticket = new ticketModel({ username, flight_id })
-        const existingTicket = await ticketModel.findOne({ username, flight_id })
+        const ticket = new ticketModel({ email, flight_id, seat })
+        const existingTicket = await ticketModel.findOne({ email, flight_id, seat })
         if (!existingTicket) await ticket.save()
-        console.log("ticket", ticket)
+        console.log("ticket", ticket, existingTicket)
         res.status(200).send(ticket)
     }
     catch (err) {
@@ -16,8 +16,8 @@ const addTicketToDatabase = async (req, res) => {
 }
 
 const returnUserTickets = async (req, res) => {
-    const username = req.username
-    const userTickets = await ticketModel.find({ username })
+    const email = req.email
+    const userTickets = await ticketModel.find({ email })
     console.log("userTickets", userTickets)
     if (userTickets) res.status(200).send(userTickets)
     else res.status(401).json("Tickets not found")
