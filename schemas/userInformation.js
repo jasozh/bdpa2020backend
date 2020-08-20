@@ -17,7 +17,8 @@ const userInformationSchema = mongoose.Schema({
     lastLoginIp: { type: String },
     lastLoginDate: { type: Date },
     card: { type: String },
-    ffms: { type: Number }
+    ffms: { type: Number },
+    isBanned: { type: Boolean, default: false }
 })
 
 const model = mongoose.model("userInformation", userInformationSchema)
