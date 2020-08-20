@@ -17,10 +17,10 @@ const addUserToDatabase = async (req, res) => {
         const results = await userCreds.save()
         try {
             const userInfo = new userInformationModel({
-                title, firstName, middleName, lastName, suffix,
+                email, title, firstName, middleName, lastName, suffix,
                 sex, birthdate,
                 city, state, zip, country,
-                email, phone, card: ""
+                phone, card: ""
             })
             console.log("user info", userInfo)
             const results = await userInfo.save()
@@ -34,6 +34,7 @@ const addUserToDatabase = async (req, res) => {
             else res.send("Bad input")
         }
     } catch (err) {
+        console.log(err)
         if (err.code === 11000) {
             res.status(409).json({ err })
             return
