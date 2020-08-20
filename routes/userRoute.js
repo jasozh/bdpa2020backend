@@ -13,5 +13,4 @@ userRouter.route('/update').post(tokenAuth, bodyParser.json(), updateUserInforma
 userRouter.route("/guest").get(guestUser)
 userRouter.route("/getRole").get(tokenAuth, returnUserRole)
 userRouter.route("/getAllUsers").get(tokenAuth, returnAllUsers)
-
 module.exports = userRouter

@@ -121,4 +121,6 @@ const returnAllUsers = async (req, res) => {
     }
     else res.status(400).json("Users unable to be retrieved")
 }
+// Delete user 
+
 module.exports = { addUserToDatabase, verifyUserCredentials, verifyUserSecurityQuestions, findUser, returnUserInformation, updateUserInformation, returnUserRole, returnAllUsers } 
