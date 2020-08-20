@@ -53,6 +53,7 @@ const verifyUserCredentials = async (email, password) => {
     const validPassword = await bycrypt.compare(password, user.password)
     if (!validPassword) return false
     console.log("valid password", validPassword)
+    if (userInformation.isBanned) return false
     return user.role
 }
 const verifyUserSecurityQuestions = async (email, securityQuestion1, securityQuestion2, securityQuestion3) => {
