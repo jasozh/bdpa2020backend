@@ -128,5 +128,36 @@ const returnAllUsers = async (req, res) => {
     else res.status(400).json("Users unable to be retrieved")
 }
 // Delete user 
-
-module.exports = { addUserToDatabase, verifyUserCredentials, verifyUserSecurityQuestions, findUser, returnUserInformation, updateUserInformation, returnUserRole, returnAllUsers } 
+const deleteUser = async username => {
+    const userExist = await findUser(username)
+    if (userExist) {
+        console.log('User Exist')
+        try {
+            console.log('Deleting User:', username)
+            const deleteuserInfoResult = await userInformationModel.deleteOne({ "username": username})
+            const deleteuserCredResult = await userModel.deleteOne({ "username": username})
+            if (deleteuserInfoResult.deletedCount === 1 && deleteuserCredResult.deletedCount === 1) {
+                return true
+            }
+            return false
+        } catch (e) {
+            console.log(e);
+        }
+    } else {
+        console.log('User does not exist');
+        return false;
+    }
+}
+const returnDeletedUser = async (req, res) => {
+    console.log('Request Username is: ', req.params.username)
+    const username = await req.params.username;
+    const user = await deleteUser(username)
+    if(user) {
+        res.status(200).send('User Deleted')
+        console.log('User Deleted')
+    } else {
+        res.status(400).json('User Not Deleted')
+        console.log('User Not Deleted')
+    }
+}
+module.exports = { addUserToDatabase, verifyUserCredentials, verifyUserSecurityQuestions, findUser, returnUserInformation, updateUserInformation, returnUserRole, returnAllUsers, returnDeletedUser } 
