@@ -19,6 +19,43 @@ const addTicketToDatabase = async (req, res) => {
         res.status(401)
     }
 }
+
+const deleteTicketFromDatabase = async (req, res) => {
+    console.log("Ticket Deletion", req.body)
+    const email = req.body.email, flight_id = req.body.flight_id, seat = req.body.seat
+    try {
+        const deleteTicket = await ticketModel.deleteOne({ flight_id: flight_id })
+        console.log("ticket", existingTicket)
+        
+        return true
+}
+    catch (err) {
+        console.log(err)
+        res.status(401)
+    }
+}
+// const deleteUser = async email => {
+//     const userExist = await findUser(email)
+//     if (userExist) {
+//         console.log('User Exist')
+//         try {
+//             console.log('Deleting User:', email)
+//             const deleteuserInfoResult = await userInformationModel.deleteOne({ email })
+//             const deleteuserCredResult = await userModel.deleteOne({ email })
+//             if (deleteuserInfoResult.deletedCount === 1 && deleteuserCredResult.deletedCount === 1) {
+//                 return true
+//             }
+//             return false
+//         } catch (e) {
+//             console.log(e);
+//         }
+//     } else {
+//         console.log('User does not exist');
+//         return false;
+//     }
+// }
+
+
 const returnUserTickets = async (req, res) => {
     const email = req.email
     const userTickets = await ticketModel.find({ email })
@@ -27,4 +64,4 @@ const returnUserTickets = async (req, res) => {
     else res.status(401).json("Tickets not found")
 }
 
-module.exports = { addTicketToDatabase, returnUserTickets } 
+module.exports = { addTicketToDatabase, returnUserTickets, deleteTicketFromDatabase } 
