@@ -160,4 +160,15 @@ const returnDeletedUser = async (req, res) => {
         console.log('User Not Deleted')
     }
 }
-module.exports = { addUserToDatabase, verifyUserCredentials, verifyUserSecurityQuestions, findUser, returnUserInformation, updateUserInformation, returnUserRole, returnAllUsers, returnDeletedUser } 
+// User Ban 
+const returnUserBan = async email => {
+    const userBan = await userModel.find({ email }, { isBanned: 1, _id: 0 });
+    if (userBan === null || userBan === undefined) return undefined
+    console.log("Found user ban status", userBan)
+    return userBan
+}
+const requestUserBan = async (req, res) => {
+    console.log('Requesting Ban')
+    console.log(req.params.email)
+}
+module.exports = { addUserToDatabase, verifyUserCredentials, verifyUserSecurityQuestions, findUser, returnUserInformation, updateUserInformation, returnUserRole, returnAllUsers, returnDeletedUser, requestUserBan } 
