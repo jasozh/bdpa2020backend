@@ -2,13 +2,9 @@ const userModel = require('./schemas/user'), userInformationModel = require("./s
 const bycrypt = require("bcrypt")
 
 const addUserToDatabase = async (req, res) => {
-    // console.log("Request body:", req.body)
-    const securityQuestion1 = req.body.securityQuestion1, securityQuestion2 = req.body.securityQuestion2, securityQuestion3 = req.body.securityQuestion3
-    const title = req.body.title, firstName = req.body.firstName, middleName = req.body.middleName, lastName = req.body.lastName, suffix = req.body.suffix
-    const sex = req.body.sex, birthdate = req.body.birthdate
-    const city = req.body.city, state = req.body.state, zip = req.body.zip, country = req.body.country
-    const phone = req.body.phone, email = req.body.email, password = req.body.password
-    const ffms = req.body.ffms
+    const { securityQuestion1, securityQuestion2, securityQuestion3,
+        title, firstName, middleName, lastName, suffix, sex, birthdate,
+        city, state, zip, country, phone, email, password, ffms } = req.body
     try {
         const hashedPassword = await bycrypt.hash(password, 10)
         const userCreds = new userModel({
@@ -166,7 +162,7 @@ const changeUserBan = async email => {
     const userBan = await userInformationModel.find({ email }, { isBanned: 1, _id: 0 });
     if (userBan === null || userBan === undefined) return undefined
     const currentState = await userBan[0].isBanned
-    await userInformationModel.updateOne({ email }, { $set: {isBanned: !currentState}})
+    await userInformationModel.updateOne({ email }, { $set: { isBanned: !currentState } })
     return true
 }
 const requestUserBan = async (req, res) => {
