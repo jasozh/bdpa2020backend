@@ -8,6 +8,7 @@ const addUserToDatabase = async (req, res) => {
     const sex = req.body.sex, birthdate = req.body.birthdate
     const city = req.body.city, state = req.body.state, zip = req.body.zip, country = req.body.country
     const phone = req.body.phone, email = req.body.email, password = req.body.password
+    const ffms = req.body.ffms
     try {
         const hashedPassword = await bycrypt.hash(password, 10)
         const userCreds = new userModel({
@@ -17,7 +18,7 @@ const addUserToDatabase = async (req, res) => {
         const results = await userCreds.save()
         try {
             const userInfo = new userInformationModel({
-                email, title, firstName, middleName, lastName, suffix,
+                ffms, email, title, firstName, middleName, lastName, suffix,
                 sex, birthdate,
                 city, state, zip, country,
                 phone, card: ""
