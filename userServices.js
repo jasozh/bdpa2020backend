@@ -172,6 +172,10 @@ const changeUserBan = async email => {
 const requestUserBan = async (req, res) => {
     console.log('Requesting Ban')
     console.log(req.params.email)
-    await changeUserBan(req.params.email)
+    try {
+        await changeUserBan(req.params.email)
+    } catch (error) {
+        res.status(400).json('Ban could not be changed')
+    }
 }
 module.exports = { addUserToDatabase, verifyUserCredentials, verifyUserSecurityQuestions, findUser, returnUserInformation, updateUserInformation, returnUserRole, returnAllUsers, returnDeletedUser, requestUserBan } 
