@@ -87,12 +87,18 @@ const returnUserInformation = async (req, res) => {
 }
 const updateUserInformation = async (req, res) => {
     console.log(req.username)
-    let { username, ...userInfo } = req.body
+    const { username, ...userInfo } = req.body
     console.log(userInfo)
-    userInfo = await userInformationModel.findOneAndUpdate(req.username, userInfo)
-    const newUserInfo = await findUserInformation(req.username)
-    console.log("newUserInfo", newUserInfo)
-    res.status(200).send(newUserInfo)
+    try {
+        await userInformationModel.findOneAndUpdate(req.username, userInfo)
+        const newUserInfo = await findUserInformation(req.username)
+        console.log("newUserInfo", newUserInfo)
+        res.status(200).send(newUserInfo)
+    }
+    catch (err) {
+        console.log(err)
+        res.status(400)
+    }
 }
 const findUserRole = async username => {
     const userRole = await userModel.find({ username }, { role: 1, _id: 0});
